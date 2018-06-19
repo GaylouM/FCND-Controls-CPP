@@ -9,12 +9,9 @@
 #include "Utility/StringUtils.h"
 #include "Drawing/GraphManager.h"
 #include "MavlinkNode/MavlinkTranslation.h"
-#include <vector>
 
 using SLR::Quaternion;
 using SLR::ToUpper;
-
-using namespace std;
 
 void KeyboardInteraction(V3F& force, shared_ptr<Visualizer_GLUT> vis);
 bool receivedResetRequest = true;
@@ -37,12 +34,7 @@ V3F force, moment;
 float simulationTime=0;
 int randomNumCarry=-1;
 
-string path = "../config/log/log.txt";
-FILE* _logFile = fopen(path.c_str(), "w");
-
-//vector<float> err;
-
-void OnTimer(int v, FILE* _logFile);
+void OnTimer(int v);
 
 vector<QuadcopterHandle> CreateVehicles();
 string _scenarioFile="../config/1_Intro.txt";
@@ -141,7 +133,7 @@ void ResetSimulation()
   grapher->Clear();
 }
 
-void OnTimer(int, FILE*)
+void OnTimer(int)
 {
   ParamsHandle config = SimpleConfig::GetInstance();
   
@@ -167,7 +159,7 @@ void OnTimer(int, FILE*)
       }
       simulationTime += dtSim;
     }
-    grapher->UpdateData(simulationTime, _logFile);
+    grapher->UpdateData(simulationTime);
   }
   
   KeyboardInteraction(force, visualizer);

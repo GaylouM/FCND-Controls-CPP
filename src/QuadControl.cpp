@@ -238,15 +238,22 @@ V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
-  velCmd = kpPosXY * (posCmd - pos);
+  //velCmd = kpPosXY * (posCmd - pos);
 
-  float velNorm = sqrt((velCmd.x * velCmd.x) + (velCmd.y * velCmd.y));
+  /*float velNorm = sqrt((velCmd.x * velCmd.x) + (velCmd.y * velCmd.y));
 
   if (velNorm > maxSpeedXY) {
 	  velCmd = velCmd * maxSpeedXY / velNorm;
-  }
+  }*/
+
+  velCmd.x = CONSTRAIN(velCmd.x, -maxSpeedXY, maxSpeedXY);
+  velCmd.y = CONSTRAIN(velCmd.y, -maxSpeedXY, maxSpeedXY);
 
   accelCmd += (kpPosXY * (posCmd - pos)) + (kpVelXY * (velCmd - vel));
+
+  accelCmd.x = CONSTRAIN(accelCmd.x, -maxAccelXY, maxAccelXY);
+  accelCmd.y = CONSTRAIN(accelCmd.y, -maxAccelXY, maxAccelXY);
+  accelCmd.z = 0;
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 

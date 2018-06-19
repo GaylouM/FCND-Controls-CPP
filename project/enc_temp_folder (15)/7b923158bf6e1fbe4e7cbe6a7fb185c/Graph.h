@@ -15,7 +15,7 @@ public:
   Graph(const char* name);
   void Reset();
   void Clear();
-  void Update(double time, std::vector<shared_ptr<DataSource> >& sources, FILE* _logFile);
+  void Update(double time, std::vector<shared_ptr<DataSource> >& sources);
 
   void Draw();
   void AddItem(string path);

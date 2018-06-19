@@ -8,28 +8,9 @@
 #include "Drawing/AbsThreshold.h"
 #include "Drawing/WindowThreshold.h"
 
-#include <iostream>
-#include <fstream>
-
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-using namespace std;
-
 using namespace SLR;
 
 #define MAX_POINTS 10000
-
-int k = 10;
-
-vector<float> err;
-vector<float> timing;
-string kpPosXY, kpPosZ;
-string kpVelXY, kpVelZ;
-string kpBank, kpYaw;
-string KiPosZ;
-string kpPQR;
-
-double best_mean_err = std::numeric_limits<double>::infinity();
 
 Graph::Graph(const char* name)
 {
@@ -202,7 +183,7 @@ void Graph::Clear()
   }
 }
 
-void Graph::Update(double time, std::vector<shared_ptr<DataSource> >& sources, FILE* _logFile)
+void Graph::Update(double time, std::vector<shared_ptr<DataSource> >& sources)
 {
   for (unsigned int i = 0; i < _series.size(); i++)
   {
@@ -213,107 +194,6 @@ void Graph::Update(double time, std::vector<shared_ptr<DataSource> >& sources, F
       {
         _series[i].x.push((float)time);
         _series[i].y.push(tmp);
-		if (time < 0.006 && !err.empty()) {
-			float mean_err = 0.f;
-			for (auto& n : err)
-				mean_err += n;
-			mean_err /= err.size();
-			if (_logFile && mean_err < 1.11783340 && timing.back() > 9.9)
-			{
-
-				ifstream fichier("../config/QuadControlParams.txt", ios::in);  // on ouvre
-
-				if (fichier)
-				{
-					string line;
-					string chaine1, chaine2, chaine3;
-
-					while (getline(fichier, line).good())  // same as: while (getline( myfile, line ).good())
-					{
-						if (line.find("kpPosXY") != std::string::npos)
-						{
-							kpPosXY = line;
-						}
-						else if(line.find("kpPosZ") != std::string::npos) {
-							kpPosZ = line;
-						}
-						else if (line.find("KiPosZ") != std::string::npos) {
-							KiPosZ = line;
-						}
-						else if (line.find("kpVelXY") != std::string::npos) {
-							kpVelXY = line;
-						}
-						else if (line.find("kpVelZ") != std::string::npos) {
-							kpVelZ = line;
-						}
-						else if (line.find("kpBank") != std::string::npos) {
-							kpBank = line;
-						}
-						else if (line.find("kpYaw") != std::string::npos) {
-							kpYaw = line;
-						}
-						else if (line.find("kpPQR") != std::string::npos) {
-							kpPQR = line;
-						}
-					}
-
-					fichier.close();
-				}
-				else {
-					cerr << "Impossible d'ouvrir le fichier !" << endl;
-				}
-
-				fprintf(_logFile, "%s", kpPosXY.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%s", kpPosZ.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%s", KiPosZ.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%s", kpVelXY.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%s", kpVelZ.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%s", kpBank.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%s", kpYaw.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%s", kpPQR.c_str());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%f", timing.back());
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "%f", mean_err);
-				fprintf(_logFile, ", ");
-				fprintf(_logFile, "\n");
-				fflush(_logFile);
-
-				if (mean_err < best_mean_err) {
-					best_mean_err = mean_err;
-					k = 10;
-					SetConsoleTextAttribute(hConsole, k);
-					cout << mean_err << endl;
-					k = 15;
-					SetConsoleTextAttribute(hConsole, k);
-					cout << "\n";
-				}
-				else if (mean_err > best_mean_err) {
-					k = 12;
-					SetConsoleTextAttribute(hConsole, k);
-					cout << mean_err << endl;
-					k = 15;
-					SetConsoleTextAttribute(hConsole, k);
-					cout << "\n";
-				}
-				else {
-					cout << mean_err << endl;
-					cout << "\n";
-				}
-			}
-			
-			err.clear();
-			timing.clear();
-		}
-		timing.push_back(time);
-		err.push_back(tmp);
         break;
       }
     } 

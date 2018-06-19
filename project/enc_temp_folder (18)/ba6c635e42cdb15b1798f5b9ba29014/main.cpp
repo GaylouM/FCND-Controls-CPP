@@ -9,12 +9,9 @@
 #include "Utility/StringUtils.h"
 #include "Drawing/GraphManager.h"
 #include "MavlinkNode/MavlinkTranslation.h"
-#include <vector>
 
 using SLR::Quaternion;
 using SLR::ToUpper;
-
-using namespace std;
 
 void KeyboardInteraction(V3F& force, shared_ptr<Visualizer_GLUT> vis);
 bool receivedResetRequest = true;
@@ -39,8 +36,6 @@ int randomNumCarry=-1;
 
 string path = "../config/log/log.txt";
 FILE* _logFile = fopen(path.c_str(), "w");
-
-//vector<float> err;
 
 void OnTimer(int v, FILE* _logFile);
 
