@@ -122,4 +122,4 @@ In the C++ *QuadControl::GenerateMotorCommands* method are implemented as:
 
 ```
 
-[![Many quadcopters simulation](./images/forces_sol1.gif)](https://youtu.be/Kgx4ATuyZ2A "Many quadcopters simulation")
+[![Many quadcopters simulation]((http://img.youtube.com/vi/KOxbO0EI4MA/0.jpg))](https://youtu.be/Kgx4ATuyZ2A "Many quadcopters simulation")
