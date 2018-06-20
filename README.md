@@ -122,4 +122,6 @@ In the C++ *QuadControl::GenerateMotorCommands* method are implemented as:
 
 ```
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Kgx4ATuyZ2A" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 [![Many quadcopters simulation]((http://img.youtube.com/vi/KOxbO0EI4MA/0.jpg))](https://youtu.be/Kgx4ATuyZ2A "Many quadcopters simulation")
