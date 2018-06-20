@@ -187,24 +187,22 @@ float QuadControl::AltitudeControl(float posZCmd, float velZCmd, float posZ, flo
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
-  float posErr = posZCmd - posZ;
+  float z_err = posZCmd - posZ;
+  float z_err_dot = velZCmd - velZ;
+  integratedAltitudeError += z_err * dt;
 
-  float hdotCmd = (kpPosZ * posErr) + velZCmd;
+  float p_term = kpPosZ * z_err;
+  float i_term = integratedAltitudeError * KiPosZ;
+  float d_term = kpVelZ * z_err_dot;
 
-  //Limit the ascent / descent rate
-  hdotCmd = CONSTRAIN(hdotCmd, -maxDescentRate, maxAscentRate);
+  float u_1_bar = p_term + i_term + d_term + accelZCmd;
 
-  integratedAltitudeError += posErr * dt;
+  float c = (u_1_bar - 9.81) / R(2, 2);
 
-  float iTerm = KiPosZ*integratedAltitudeError;
-
-  float accelCmd = accelZCmd + kpVelZ*(hdotCmd - velZ) + iTerm;
-
-  float R33 = R(2, 2);
-  thrust = (mass * accelCmd) / R33;
+  thrust = -mass * CONSTRAIN(c, -maxAscentRate / dt, maxAscentRate / dt);
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
-  return -thrust;
+  return thrust;
 }
 
 // returns a desired acceleration in global frame
