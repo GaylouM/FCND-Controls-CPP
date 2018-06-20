@@ -121,3 +121,5 @@ In the C++ *QuadControl::GenerateMotorCommands* method are implemented as:
   cmd.desiredThrustsN[3] = (0.25 * (A - B - C - D)); // rear right
 
 ```
+
+[![Many quadcopters simulation](./images/forces_sol1.gif)](https://youtu.be/Kgx4ATuyZ2A "Many quadcopters simulation")
