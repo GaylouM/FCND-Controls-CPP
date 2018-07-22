@@ -1,3 +1,5 @@
+<script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+
 ## Project: Control of a 3D Quadrotor
 
 <div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="fr_FR" data-type="vertical" data-theme="dark" data-vanity="gaylord-marville"><a class="LI-simple-link" href='https://fr.linkedin.com/in/gaylord-marville?trk=profile-badge'>Gaylord Marville</a></div>
